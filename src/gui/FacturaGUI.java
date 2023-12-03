@@ -1,21 +1,33 @@
 package gui;
 
+import com.mysql.jdbc.Connection;
+import conexion.ConMySql;
+import dao.DetalleDAO;
 import dao.FacturaDAO;
+import dto.DetalleTO;
+import dto.FacturaTO;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class FacturaGUI extends javax.swing.JInternalFrame {
 
     DefaultTableModel objDtm;
     FacturaDAO objFacturaDAO = new FacturaDAO();
+    DetalleDAO objDetalleDAO = new DetalleDAO();
     boolean sw;
     double precio = 0, importe = 0, stotfact = 0, igvfact = 0, totafact = 0;
     int cantidad = 0;
+    int xidfactura;
 
     public FacturaGUI() {
         initComponents();
@@ -176,7 +188,6 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtblRegistro.setEnabled(false);
         jScrollPane1.setViewportView(jtblRegistro);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -296,9 +307,22 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         jbtnAgregarRegistro.setText("Agregar Registro");
         jbtnAgregarRegistro.setEnabled(false);
+        jbtnAgregarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarRegistroActionPerformed(evt);
+            }
+        });
 
+        jbtnEliminarRegistro.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnEliminarRegistro.setForeground(new java.awt.Color(0, 0, 0));
         jbtnEliminarRegistro.setText("Eliminar Registro");
+        jbtnEliminarRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnEliminarRegistro.setEnabled(false);
+        jbtnEliminarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEliminarRegistroActionPerformed(evt);
+            }
+        });
 
         jbtnBuscarProd.setText("...");
         jbtnBuscarProd.setEnabled(false);
@@ -379,6 +403,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         jbtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/nuevo-documento.png"))); // NOI18N
         jbtnNuevo.setText("Nuevo");
+        jbtnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
         jbtnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnNuevoActionPerformed(evt);
@@ -388,10 +413,20 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         jbtnGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/disquete.png"))); // NOI18N
         jbtnGrabar.setText("Grabar");
         jbtnGrabar.setEnabled(false);
+        jbtnGrabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGrabarActionPerformed(evt);
+            }
+        });
 
         jbtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/cancelar.png"))); // NOI18N
         jbtnCancelar.setText("Cancelar");
         jbtnCancelar.setEnabled(false);
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
 
         jbtnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/salida.png"))); // NOI18N
         jbtnSalir.setText("Salir");
@@ -581,6 +616,87 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtxtCantidadProdKeyTyped
 
+    private void jbtnAgregarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarRegistroActionPerformed
+        if (!jtxtCantidadProd.getText().isEmpty()) {
+            int canFilas = objDtm.getRowCount();
+            if (canFilas == 0) {
+                Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
+                objDtm.addRow(registro);
+            } else {
+                boolean sw = true;
+                for (int i = 0; i < canFilas; i++) {
+                    if (jtxtCodProd.getText().equals(jtblRegistro.getValueAt(i, 0).toString())) {
+                        sw = false;
+                    }
+                }
+                if (sw) {
+                    Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
+                    objDtm.addRow(registro);
+                }
+            }
+
+            limpiarProducto();
+            cargarTotales();
+        }
+    }//GEN-LAST:event_jbtnAgregarRegistroActionPerformed
+
+    private void jbtnEliminarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarRegistroActionPerformed
+        objDtm.removeRow(jtblRegistro.getSelectedRow());
+        cargarTotales();
+    }//GEN-LAST:event_jbtnEliminarRegistroActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        habilitarControles(false);
+        limpiarControles();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jbtnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGrabarActionPerformed
+        try {
+            /**
+             * ***********C A B E Z E R A******************
+             */
+            FacturaTO objFacturaTO = new FacturaTO();
+            objFacturaTO.setIdcliente(Integer.parseInt(jtxtIdCliente.getText()));
+            objFacturaTO.setIdempleado(Integer.parseInt(jtxtCodEmpl.getText()));
+            objFacturaTO.setStotfact(stotfact);
+            objFacturaTO.setIgvfact(igvfact);
+            objFacturaTO.setTotafact(totafact);
+            objFacturaDAO.insert(objFacturaTO);
+            /**
+             * ***********D E T A L L E******************
+             */
+            xidfactura = objFacturaDAO.ultimaFactura();
+            int canFilas = objDtm.getRowCount();
+            for (int i = 0; i < canFilas; i++) {
+                DetalleTO objDetalleTO = new DetalleTO();
+                objDetalleTO.setIdfactura(xidfactura);
+                objDetalleTO.setIdproducto(Integer.parseInt(jtblRegistro.getValueAt(i, 0).toString()));
+                objDetalleTO.setPrecprod(Double.parseDouble(jtblRegistro.getValueAt(i, 2).toString()));
+                objDetalleTO.setCantidad(Integer.parseInt(jtblRegistro.getValueAt(i, 3).toString()));
+                objDetalleTO.setImporte(Double.parseDouble(jtblRegistro.getValueAt(i, 4).toString()));
+                objDetalleDAO.insert(objDetalleTO);
+            }
+            habilitarControles(false);
+            limpiarControles();
+            JOptionPane.showMessageDialog(rootPane, "Factura Grabada");
+            /**
+             * ***********I M P R I M I R******************
+             */
+            Connection cn = (Connection) ConMySql.getInstance().getConnection();
+            String direccion = "src\\reportes\\repFactura.jrxml";
+            JasperReport reporte = JasperCompileManager.compileReport(direccion);
+            Map parametros = new HashMap();
+            parametros.put("xidfactura", objFacturaDAO.ultimaFactura());
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporte, parametros, cn);
+            JasperViewer view = new JasperViewer(mostrarReporte, false);
+            view.setTitle("Reporte Factura");
+            view.setExtendedState(MAXIMIZED_BOTH);
+            view.setVisible(true);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jbtnGrabarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -668,6 +784,30 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         while (objDtm.getRowCount() > 0) {
             objDtm.removeRow(0);
         }
+    }
+
+    private void limpiarProducto() {
+        jtxtCodProd.setText(null);
+        jtxtNombProducto.setText(null);
+        jtxtPrecioProd.setText(null);
+        jtxtCantidadProd.setText(null);
+        jtxtImporteProd.setText(null);
+    }
+
+    private void cargarTotales() {
+        stotfact = 0;
+        totafact = 0;
+        igvfact = 0;
+        int canFilas = objDtm.getRowCount();
+        for (int i = 0; i < canFilas; i++) {
+            totafact = totafact + Double.parseDouble(jtblRegistro.getValueAt(i, 4).toString());
+        }
+        stotfact = totafact / 1.18;
+        igvfact = totafact - stotfact;
+        jtxtSubTotal.setText(String.format("%.2f", stotfact));
+        jtxtIGV.setText(String.format("%.2f", igvfact));
+        jtxtTotal.setText(String.format("%.2f", totafact));
+
     }
 
 }

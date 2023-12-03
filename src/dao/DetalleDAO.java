@@ -2,13 +2,12 @@ package dao;
 
 import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import conexion.ConMySql;
-import dto.FacturaTO;
+import dto.DetalleTO;
 import interfaz.VentasInterface;
 import java.sql.ResultSet;
 
-public class FacturaDAO implements VentasInterface<FacturaTO> {
+public class DetalleDAO implements VentasInterface<DetalleTO>{
 
     @Override
     public ResultSet buscar(Object objObject) throws Exception {
@@ -16,34 +15,26 @@ public class FacturaDAO implements VentasInterface<FacturaTO> {
     }
 
     @Override
-    public void insert(FacturaTO objObject) throws Exception {
+    public void insert(DetalleTO objObject) throws Exception {
         Connection cn = (Connection) ConMySql.getInstance().getConnection();
-        String sql = "CALL sp_insert_factura(?,?,?,?,?)";
+        String sql = "CALL sp_insert_detalle(?,?,?,?,?)";
         CallableStatement cs = (CallableStatement) cn.prepareCall(sql);
-        cs.setInt(1, objObject.getIdcliente());
-        cs.setInt(2, objObject.getIdempleado());
-        cs.setDouble(3, objObject.getStotfact());
-        cs.setDouble(4, objObject.getIgvfact());
-        cs.setDouble(5, objObject.getTotafact());
+        cs.setInt(1, objObject.getIdfactura());
+        cs.setInt(2, objObject.getIdproducto());
+        cs.setDouble(3, objObject.getPrecprod());
+        cs.setDouble(4, objObject.getCantidad());
+        cs.setDouble(5, objObject.getImporte());
         cs.execute();
     }
 
     @Override
-    public void update(FacturaTO objObject) throws Exception {
+    public void update(DetalleTO objObject) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(FacturaTO objObject) throws Exception {
+    public void delete(DetalleTO objObject) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public int ultimaFactura() throws Exception{
-        Connection cn = (Connection) ConMySql.getInstance().getConnection();
-        String sql = "SELECT idfactura FROM factura order by 1";
-        PreparedStatement ps = (PreparedStatement) cn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        rs.last();  
-        return rs.getInt(1);
-    }
 }
