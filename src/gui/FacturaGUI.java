@@ -620,7 +620,8 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         if (!jtxtCantidadProd.getText().isEmpty()) {
             int canFilas = objDtm.getRowCount();
             if (canFilas == 0) {
-                Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
+                Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), 
+                    jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
                 objDtm.addRow(registro);
             } else {
                 boolean sw = true;
@@ -630,7 +631,8 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
                     }
                 }
                 if (sw) {
-                    Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
+                    Object[] registro = {jtxtCodProd.getText(), jtxtNombProducto.getText(), jtxtPrecioProd.getText(), 
+                        jtxtCantidadProd.getText(), jtxtImporteProd.getText()};
                     objDtm.addRow(registro);
                 }
             }
