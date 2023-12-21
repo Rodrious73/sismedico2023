@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repAuditoria" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7a2b7a1-34a4-425a-9619-7f389e0d85a2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<parameter name="fechaInicio" class="java.lang.String"/>
+	<parameter name="fechaFinal" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from v_auditoria_factura
+where date(fechfact) between  $P{fechaInicio}  and  $P{fechaFinal}]]>
+	</queryString>
+	<field name="idfactura" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idfactura"/>
+		<property name="com.jaspersoft.studio.field.label" value="idfactura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="fechfact" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="fechfact"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechfact"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="nombclie" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombclie"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombclie"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="nombempl" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombempl"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombempl"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="apatempl" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="apatempl"/>
+		<property name="com.jaspersoft.studio.field.label" value="apatempl"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="amatempl" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="amatempl"/>
+		<property name="com.jaspersoft.studio.field.label" value="amatempl"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="totafact" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="totafact"/>
+		<property name="com.jaspersoft.studio.field.label" value="totafact"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="transa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="transa"/>
+		<property name="com.jaspersoft.studio.field.label" value="transa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.label" value="usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<field name="fechahora" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="fechahora"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechahora"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="v_auditoria_factura"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="40" width="50" height="20" uuid="900e40d9-2eaf-41ac-aada-84d56369e663">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b8230b0-854c-4fad-ac0b-e73b7f1b2c78"/>
+				</reportElement>
+				<text><![CDATA[ID Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="41" width="60" height="20" uuid="c9e2f4fc-72cc-4f3d-b50f-ccd072a60c43">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5a46cff-ebd4-4ceb-8be6-af146d824e45"/>
+				</reportElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="41" width="71" height="21" uuid="e867c029-76c6-423a-aadc-9f164ff9fb2e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4139e20d-a132-47cf-8d43-7a3defeefb8b"/>
+				</reportElement>
+				<text><![CDATA[Nombre Empl]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="41" width="69" height="21" uuid="36a54a68-3972-4536-bbd7-da5b7a72bfff">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="24722053-b37b-4029-8acc-72caf5454ad6"/>
+				</reportElement>
+				<text><![CDATA[Ap. Paterno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="41" width="70" height="20" uuid="36de1a81-20b2-4e31-b476-7df4fbc85bf8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e174228c-c8e8-4469-bb4f-b7f8cf6d915a"/>
+				</reportElement>
+				<text><![CDATA[Ap. Materno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="41" width="56" height="20" uuid="7be5e19a-fb14-4bf5-bf99-078f31719c38">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="756b9020-91d9-437f-b092-29087f0c43cd"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="41" width="64" height="20" uuid="76ebf6a5-d042-4d57-860d-df33d1bf617c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="367d757d-e966-4b00-acb1-28979c3ed312"/>
+				</reportElement>
+				<text><![CDATA[Transa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="40" width="70" height="21" uuid="e553eaa7-9ea3-4f7f-8392-d0721d410e56">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b051a3be-0bb3-44ef-a135-6efd54b90599"/>
+				</reportElement>
+				<text><![CDATA[fechfact]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="433aa25c-0cd7-4f73-adab-11679f80ad66">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b8230b0-854c-4fad-ac0b-e73b7f1b2c78"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{idfactura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="1" width="60" height="20" uuid="1037fbc6-61cb-4c8b-8a0b-1376681b244c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5a46cff-ebd4-4ceb-8be6-af146d824e45"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombclie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="1" width="71" height="20" uuid="34c61a21-75c1-49d0-bdac-0c6e76323a13">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4139e20d-a132-47cf-8d43-7a3defeefb8b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombempl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="1" width="70" height="20" uuid="fab430eb-ca5e-4933-8c47-3cecbaec7967">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="24722053-b37b-4029-8acc-72caf5454ad6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{apatempl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="1" width="70" height="20" uuid="41c83476-dfc5-4b95-bb0c-af8d1509972e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e174228c-c8e8-4469-bb4f-b7f8cf6d915a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{amatempl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="1" width="56" height="20" uuid="4c8bc187-bd3d-4730-ac76-b1cabb5ef507">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="756b9020-91d9-437f-b092-29087f0c43cd"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{totafact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="0" width="64" height="20" uuid="341b1b00-0d13-4c69-aca0-f703d0cbcb25">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="367d757d-e966-4b00-acb1-28979c3ed312"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{transa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="70" height="20" uuid="6fe1bf65-7e27-48dc-a291-c48a2446e2e1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b051a3be-0bb3-44ef-a135-6efd54b90599"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{fechfact}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -158,6 +158,11 @@ public class MenuGUI extends javax.swing.JFrame {
 
         segAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/auditoria.png"))); // NOI18N
         segAuditoria.setText("Auditoria");
+        segAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                segAuditoriaActionPerformed(evt);
+            }
+        });
         mnuSeguridad.add(segAuditoria);
 
         menuBar.add(mnuSeguridad);
@@ -236,6 +241,10 @@ public class MenuGUI extends javax.swing.JFrame {
     private void facGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facGenerarActionPerformed
         desktopPane.add(new FacturaGUI());
     }//GEN-LAST:event_facGenerarActionPerformed
+
+    private void segAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_segAuditoriaActionPerformed
+        desktopPane.add(new AuditoriaFacturaGUI());
+    }//GEN-LAST:event_segAuditoriaActionPerformed
 
     public static void main(String args[]) {
         try {
